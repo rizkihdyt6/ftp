@@ -131,7 +131,7 @@ iptables-save > /etc/iptables.up.rules
 iptables-restore -t < /etc/iptables.up.rules
 netfilter-persistent save
 netfilter-persistent reload
-cd /usr/bin
+#cd /usr/bin
 echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Main Menu${NC}"
 wget -q -O menu "${REPO}menu/menu.sh"
 wget -q -O vmess "${REPO}menu/vmess.sh"
