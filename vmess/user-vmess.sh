@@ -3,20 +3,41 @@ TIMES="10"
 CHATID=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 3)
 KEY=$(grep -E "^#bot# " "/etc/bot/.bot.db" | cut -d ' ' -f 2)
 URL="https://api.telegram.org/bot$KEY/sendMessage"
+CITY=$(cat /etc/xray/city)
+ISP=$(cat /usr/local/etc/xray/org)
 clear
-domain=$(cat /usr/local/etc/xray/domain)
-user=trial-`echo $RANDOM | head -c4`
-uuid=$(cat /proc/sys/kernel/random/uuid)
-masaaktif=1
-Quota=5
-echo ""
-echo ""
-exp=`date -d "$masaaktif days" +"%Y-%m-%d"`
-sed -i '/#vmess$/a\#vm# '"$user $exp"'\
-},{"id": "'""$uuid""'","alterId": '"0"',"email": "'""$user""'"' /usr/local/etc/xray/config.json
-sed -i '/#vmess-grpc$/a\#vm# '"$user $exp"'\
-},{"id": "'""$uuid""'","alterId": '"0"',"email": "'""$user""'"' /usr/local/etc/xray/config.json
-vlink1=`cat<<EOF
+NUMBER_OF_CLIENTS=$(grep -c -E "^#vm# " "/etc/vmess/.vmess.db")
+        if [[ ${NUMBER_OF_CLIENTS} == '0' ]]; then
+    echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+    echo -e " \e[1;97;101m         CONFIG VMESS ACCOUNT           \e[0m"
+    echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+    echo ""
+    echo "You have no existing clients!"
+    echo ""
+    echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+    read -n 1 -s -r -p "Press [ Enter ] to back on menu vmess"
+    vmess
+fi
+
+  echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+  echo -e "  \e[1;97;101m        CONFIG VMESS ACCOUNT         \E[0m"
+  echo -e "\033[1;36m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m"
+        echo "     No  Expired   User"
+        grep -E "^#vm# " "/etc/vmess/.vmess.db" | cut -d ' ' -f 2-3 | nl -s ') '
+        until [[ ${CLIENT_NUMBER} -ge 1 && ${CLIENT_NUMBER} -le ${NUMBER_OF_CLIENTS} ]]; do
+                if [[ ${CLIENT_NUMBER} == '1' ]]; then
+                        read -rp "Select one client [1]: " CLIENT_NUMBER
+                else
+                        read -rp "Select one client [1-${NUMBER_OF_CLIENTS}]: " CLIENT_NUMBER
+                fi
+        done
+user=$(grep -E "^#vm# " "/etc/vmess/.vmess.db" | cut -d ' ' -f 2 | sed -n "${CLIENT_NUMBER}"p)
+domain=$(cat /etc/xray/domain)
+uuid=$(grep -E "^#vm# " "/etc/vmess/.vmess.db" | cut -d ' ' -f 4 | sed -n "${CLIENT_NUMBER}"p)
+Quota=$(grep -E "^#vm# " "/etc/vmess/.vmess.db" | cut -d ' ' -f 5 | sed -n "${CLIENT_NUMBER}"p)
+exp=$(grep -E "^#vm# " "/etc/vmess/.vmess.db" | cut -d ' ' -f 3 | sed -n "${CLIENT_NUMBER}"p)
+hariini=`date -d "0 days" +"%Y-%m-%d"`
+vlink1=`cat << EOF
 {
 "v": "2",
 "ps": "$user",
@@ -31,7 +52,7 @@ vlink1=`cat<<EOF
 "tls": "tls"
 }
 EOF`
-vlink2=`cat<<EOF
+vlink2=`cat << EOF
 {
 "v": "2",
 "ps": "$user",
@@ -122,16 +143,16 @@ grpc-service-name: "vmess-grpc"
 ==========================
 Link Vmess Account
 ==========================
-Link TLS : vmess://$(echo $vlink1 | base64 -w 0)
+Link TLS  : vmess://$(echo $vlink1 | base64 -w 0)
 ==========================
-Link non TLS : vmess://$(echo $vlink2 | base64 -w 0)
+Link NTLS : vmess://$(echo $vlink2 | base64 -w 0)
+==========================
+Link gRPC : vmess://$(echo $vlink3 | base64 -w 0)
 ==========================
 END
-ISP=$(cat /usr/local/etc/xray/org)
-CITY=$(cat /usr/local/etc/xray/city)
 TEXT="
 <code>───────────────────────────</code>
-<code>SUCCES CREAT TRIALL AKUN VMESS</code>
+<code>    CONFIG DETAIL VMESS</code>
 <code>───────────────────────────</code>
 <code>Remarks       : ${user}</code>
 <code>ISP            : ${isp}</code>
@@ -148,55 +169,34 @@ TEXT="
 <code>AlterId       : 0</code>
 <code>Security      : auto</code>
 <code>Network       : websocket</code>
-<code>Path          : /(multipath) • ubah suka-suka</code>
+<code>Path     : /(multipath) • ubah suka-suka</code>
 <code>ServiceName   : vmess-grpc</code>
 <code>Alpn          : h2, http/1.1</code>
-code>───────────────────────────</code>
-<code>                Link TLS</code> 
+<code>───────────────────────────</code>
+<code>Link TLS     :</code> 
 <code>${vmesslink1}</code>
 <code>───────────────────────────</code>
-<code>                Link NTLS</code> 
+<code>Link NTLS    :</code> 
 <code>${vmesslink2}</code>
 <code>───────────────────────────</code>
-<code>                Link GRPC</code> 
+<code>Link GRPC    :</code> 
 <code>${vmesslink3}</code>
 <code>───────────────────────────</code>
 <code>Format Clash  : http://$domain:8000/vmess/vmess-$user.txt</code>
 <code>───────────────────────────</code>
 <code>Expired On : $exp</code>
 "
-systemctl restart xray
-if [ ! -e /etc/vmess ]; then
-  mkdir -p /etc/vmess
-fi
-
-if [ -z ${Quota} ]; then
-  Quota="0"
-fi
-
-c=$(echo "${Quota}" | sed 's/[^0-9]*//g')
-d=$((${c} * 1024 * 1024 * 1024))
-
-if [[ ${c} != "0" ]]; then
-  echo "${d}" >/etc/vmess/${user}
-fi
-DATADB=$(cat /etc/vmess/.vmess.db | grep "^#vm#" | grep -w "${user}" | awk '{print $2}')
-if [[ "${DATADB}" != '' ]]; then
-  sed -i "/\b${user}\b/d" /etc/vmess/.vmess.db
-fi
-echo "#vm# ${user} ${exp} ${uuid} ${Quota}" >>/etc/vmess/.vmess.db
 
 curl -s --max-time $TIMES -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
 clear
-echo -e "————————————————————————————————————————————————————" | tee -a /user/log-vmess-$user.txt
-echo -e "                Trial Vmess Account                 " | tee -a /user/log-vmess-$user.txt
-echo -e "————————————————————————————————————————————————————" | tee -a /user/log-vmess-$user.txt
+echo -e "————————————————————————————————————————————————————${NC}" | tee -a /user/log-vmess-$user.txt
+echo -e "                Config DetailsVmess                    " | tee -a /user/log-vmess-$user.txt
+echo -e "————————————————————————————————————————————————————${NC}" | tee -a /user/log-vmess-$user.txt
 echo -e "Remarks       : $user" | tee -a /user/log-vmess-$user.txt
 echo -e "ISP           : $ISP" | tee -a /user/log-vmess-$user.txt
 echo -e "City          : $CITY" | tee -a /user/log-vmess-$user.txt
 echo -e "Domain        : $domain" | tee -a /user/log-vmess-$user.txt
 echo -e "Wildcard      : (bug.com).$domain" | tee -a /user/log-vmess-$user.txt
-echo -e "Quota         : ${Quota} GB" | tee -a /user/log-vmess-$user.txt
 echo -e "Port TLS      : 443" | tee -a /user/log-vmess-$user.txt
 echo -e "Port NTLS     : 80" | tee -a /user/log-vmess-$user.txt
 echo -e "Port gRPC     : 443" | tee -a /user/log-vmess-$user.txt
@@ -209,20 +209,17 @@ echo -e "Network       : Websocket" | tee -a /user/log-vmess-$user.txt
 echo -e "Path          : /(multipath) • ubah suka-suka" | tee -a /user/log-vmess-$user.txt
 echo -e "ServiceName   : vmess-grpc" | tee -a /user/log-vmess-$user.txt
 echo -e "Alpn          : h2, http/1.1" | tee -a /user/log-vmess-$user.txt
-echo -e "————————————————————————————————————————————————————" | tee -a /user/log-vmess-$user.txt
+echo -e "————————————————————————————————————————————————————${NC}" | tee -a /user/log-vmess-$user.txt
 echo -e "Link TLS      : $vmesslink1" | tee -a /user/log-vmess-$user.txt
-echo -e "————————————————————————————————————————————————————" | tee -a /user/log-vmess-$user.txt
+echo -e "————————————————————————————————————————————————————${NC}" | tee -a /user/log-vmess-$user.txt
 echo -e "Link NTLS     : $vmesslink2" | tee -a /user/log-vmess-$user.txt
-echo -e "————————————————————————————————————————————————————" | tee -a /user/log-vmess-$user.txt
+echo -e "————————————————————————————————————————————————————${NC}" | tee -a /user/log-vmess-$user.txt
 echo -e "Link gRPC     : $vmesslink3" | tee -a /user/log-vmess-$user.txt
-echo -e "————————————————————————————————————————————————————" | tee -a /user/log-vmess-$user.txt
+echo -e "————————————————————————————————————————————————————${NC}" | tee -a /user/log-vmess-$user.txt
 echo -e "Format Clash  : http://$domain:8000/vmess/vmess-$user.txt" | tee -a /user/log-vmess-$user.txt
-echo -e "————————————————————————————————————————————————————" | tee -a /user/log-vmess-$user.txt
+echo -e "————————————————————————————————————————————————————${NC}" | tee -a /user/log-vmess-$user.txt
 echo -e "Expired On    : $exp" | tee -a /user/log-vmess-$user.txt
-echo -e "————————————————————————————————————————————————————" | tee -a /user/log-vmess-$user.txt
-echo " " | tee -a /user/log-vmess-$user.txt
-echo " " | tee -a /user/log-vmess-$user.txt
-echo " " | tee -a /user/log-vmess-$user.txt
-read -n 1 -s -r -p "Press any key to back on menu"
-clear
+echo -e "————————————————————————————————————————————————————${NC}" | tee -a /user/log-vmess-$user.txt
+echo -e ""
+read -n 1 -s -r -p "Press [ Enter ] to back on menu"
 vmess
