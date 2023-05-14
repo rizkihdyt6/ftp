@@ -7,6 +7,7 @@ echo -e " [INFO] Downloading Update File"
 echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Main Menu${NC}"
 wget -q -O vmess "${REPO}menu/vmess.sh" && chmod +x vmess
 wget -q -O bot "${REPO}menu/bot.sh" && chmod +x bot
+sleep 0.5
 echoo -e "${GB}[ INFO ]${NC} ${YB}Downloading Menu Vmess${NC}"
 wget -q -O add-vmess "${REPO}vmess/add-vmess.sh" && chmod +x add-vmess
 wget -q -O del-vmess "${REPO}vmess/del-vmess.sh" && chmod +x del-vmess
