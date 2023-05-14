@@ -10,49 +10,10 @@ BB='\e[34;1m'
 MB='\e[35;1m'
 CB='\e[35;1m'
 WB='\e[37;1m'
-CHATID="1316596937"
-KEY="6003347945:AAHv1Ti4HQliYwpYm8sbKrriDkSMqqJLUqE"
-URL="https://api.telegram.org/bot$KEY/sendMessage"
 REPO="https://raw.githubusercontent.com/rizkihdyt6/ftp/main/"
 secs_to_human() {
 echo -e "${WB}Installation time : $(( ${1} / 3600 )) hours $(( (${1} / 60) % 60 )) minute's $(( ${1} % 60 )) seconds${NC}"
 }
-
-### Status
-function print_ok() {
-    echo -e "${OK} ${BLUE} $1 ${FONT}"
-}
-function print_install() {
-	echo -e "${YELLOW} ============================================ ${FONT}"
-    echo -e "${YELLOW} # $1 ${FONT}"
-	echo -e "${YELLOW} ============================================ ${FONT}"
-    sleep 1
-}
-
-function print_error() {
-    echo -e "${ERROR} ${REDBG} $1 ${FONT}"
-}
-
-function print_success() {
-    if [[ 0 -eq $? ]]; then
-		echo -e "${Green} ============================================ ${FONT}"
-        echo -e "${Green} # $1 berhasil dipasang"
-		echo -e "${Green} ============================================ ${FONT}"
-        sleep 2
-    fi
-}
-
-### Cek root
-function is_root() {
-    if [[ 0 == "$UID" ]]; then
-        print_ok "Root user Start installation process"
-    else
-        print_error "The current user is not the root user, please switch to the root user and run the script again"
-    fi
-
-}
-
-
 start=$(date +%s)
 apt update -y
 apt upgrade -y
@@ -61,12 +22,10 @@ apt install socat netfilter-persistent -y
 apt install vnstat lsof fail2ban -y
 apt install curl sudo -y
 apt install screen cron screenfetch -y
-sudo add-apt-repository ppa:vbernat/haproxy-2.7 -y
 mkdir /backup >> /dev/null 2>&1
 mkdir /user >> /dev/null 2>&1
 mkdir /tmp >> /dev/null 2>&1
 apt install resolvconf network-manager dnsutils bind9 -y
-tar wget curl ruby zip unzip p7zip-full python3-pip haproxy libc6  gnupg gnupg2 gnupg1 \
 cat > /etc/systemd/resolved.conf << END
 [Resolve]
 DNS=8.8.8.8 8.8.4.4
@@ -111,7 +70,7 @@ apt install nginx -y
 rm /var/www/html/*.html
 rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
-mkdir -p /etc/{xray,vmess,websocket,vless,trojan,shadowsocks,bot}
+mkdir -p /etc/{xray,vmess,websocket,vless,trojan,shadowsocks,shadowsocks2022,socks,bot}
 mkdir -p /var/www/html/vmess
 mkdir -p /var/www/html/vless
 mkdir -p /var/www/html/trojan
@@ -123,6 +82,8 @@ touch /etc/vmess/.vmess.db
 touch /etc/vless/.vless.db
 touch /etc/trojan/.trojan.db
 touch /etc/shadowsocks/.shadowsocks.db
+touch /etc/shadowsocks2022/.shadowsocks2022.db
+touch /etc/socks/.socks.db
 touch /etc/bot/.bot.db
 systemctl restart nginx
 clear
@@ -143,17 +104,15 @@ domain=$(cat /usr/local/etc/xray/domain)
 curl https://get.acme.sh | sh
 source ~/.bashrc
 cd .acme.sh
-bash acme.sh --issue -d $domain --server letsencrypt --keylength ec-256 --fullchain-file /usr/local/etc/xray/fullchain.crt --key-file /usr/local/etc/xray/private.key | tee /usr/local/etc/haproxy/xray.pem --standalone --force
+bash acme.sh --issue -d $domain --server letsencrypt --keylength ec-256 --fullchain-file /usr/local/etc/xray/fullchain.crt --key-file /usr/local/etc/xray/private.key --standalone --force
 clear
-echo -e "${GB}[ INFO ]${NC} ${YB}Setup Nginx & Xray Conf & Haproxy${NC}"
+echo -e "${GB}[ INFO ]${NC} ${YB}Setup Nginx & Xray Conf${NC}"
 echo "UQ3w2q98BItd3DPgyctdoJw4cqQFmY59ppiDQdqMKbw=" > /usr/local/etc/xray/serverpsk
-wget -O /etc/haproxy/haproxy.cfg "${REPO}xray/haproxy.cfg"
-wget -q -O /usr/local/etc/xray/config.json "${REPO}xray/config.json"
-wget -q -O /etc/nginx/nginx.conf "${REPO}xray/nginx.conf"
+wget -q -O /usr/local/etc/xray/config.json ${REPO}xray/config.json
+wget -q -O /etc/nginx/nginx.conf ${REPO}xray/nginx.conf
 wget -q -O /etc/nginx/conf.d/xray.conf ${REPO}xray/xray.conf
 systemctl restart nginx
 systemctl restart xray
-systemctl enable --now haproxy
 echo -e "${GB}[ INFO ]${NC} ${YB}Setup Done${NC}"
 sleep 2
 clear
@@ -182,13 +141,16 @@ wget -q -O shadowsocks "${REPO}menu/shadowsocks.sh"
 wget -q -O shadowsocks2022 "${REPO}menu/shadowsocks2022.sh"
 wget -q -O socks "${REPO}menu/socks.sh"
 wget -q -O allxray "${REPO}menu/allxray.sh"
+wget -q -O bot "${REPO}menu/bot.sh"
 sleep 0.5
 echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Menu Vmess${NC}"
 wget -q -O add-vmess "${REPO}vmess/add-vmess.sh"
 wget -q -O del-vmess "${REPO}vmess/del-vmess.sh"
-wget -q -O extend-vmess "${REPO}vmess/extend-vmess.sh
+wget -q -O extend-vmess "${REPO}vmess/extend-vmess.sh"
 wget -q -O trialvmess "${REPO}vmess/trialvmess.sh"
 wget -q -O cek-vmess "${REPO}vmess/cek-vmess.sh"
+wget -q -O user-vmess "${REPO}vmess/user-vmess.sh"
+
 sleep 0.5
 echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Menu Vless${NC}"
 wget -q -O add-vless "${REPO}vless/add-vless.sh"
@@ -251,6 +213,11 @@ wget -q -O xrayofficial "${REPO}other/xrayofficial.sh"
 wget -q -O about "${REPO}other/about.sh"
 wget -q -O clear-log "${REPO}other/clear-log.sh"
 wget -q -O changer "${REPO}other/changer.sh"
+sleep 0.5
+echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Menu Bot Notif${NC}"
+wget -q -O add-bot-notif "${REPO}bot-notif/add-bot-notif.sh"
+wget -q -O del-bot-notif "${REPO}bot-notif/del-bot-notif.sh
+sleep 0.5
 echo -e "${GB}[ INFO ]${NC} ${YB}Download All Menu Done${NC}"
 sleep 2
 chmod +x add-vmess
@@ -258,6 +225,7 @@ chmod +x del-vmess
 chmod +x extend-vmess
 chmod +x trialvmess
 chmod +x cek-vmess
+chmod +x user-vmess
 chmod +x add-vless
 chmod +x del-vless
 chmod +x extend-vless
@@ -312,6 +280,9 @@ chmod +x xrayofficial
 chmod +x about
 chmod +x clear-log
 chmod +x changer
+chmod +x del-bot-notif
+chmod +x add-bot-notif
+chmod +x bot
 cd
 echo "0 0 * * * root xp" >> /etc/crontab
 echo "*/3 * * * * root clear-log" >> /etc/crontab
@@ -325,27 +296,13 @@ fi
 mesg n || true
 clear
 menu
-sed -i "s/xxx/${domain}/g" /etc/haproxy/haproxy.cfg
 END
 chmod 644 /root/.profile
-
-TEXT="
-<u>INFORMATION VPS INSTALL SC</u>
-<code>TIME      : </code><code>${TIME}</code>
-<code>IPVPS     : </code><code>${MYIP}</code>
-<code>DOMAIN    : </code><code>${domain}</code>
-<code>ISP       : </code><code>${ISP}</code>
-<code>LOKASI    : </code><code>${CITY}</code>
-<code>USER      : </code><code>${NAMES}</code>
-<code>RAM       : </code><code>${RAMMS}MB</code>
-<code>LINUX     : </code><code>${OS}</code>
-"
-    curl -s --max-time $TIMES -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
 clear
 echo ""
 echo ""
 echo -e "${BB}—————————————————————————————————————————————————————————${NC}"
-echo -e "                  ${WB}MINI SCRIPT BY NEWBIE PROJECT${NC}"
+echo -e "                  ${WB}MINI SCRIPT BY DUGONG${NC}"
 echo -e "${BB}—————————————————————————————————————————————————————————${NC}"
 echo -e "  ${WB}»»» Protocol Service «««  |  »»» Network Protocol «««${NC}  "
 echo -e "${BB}—————————————————————————————————————————————————————————${NC}"
@@ -360,7 +317,6 @@ echo -e "               ${WB}»»» Network Port Service «««${NC}            
 echo -e "${BB}————————————————————————————————————————————————————————${NC}"
 echo -e "  ${YB}- HTTPS : 443, 2053, 2083, 2087, 2096, 8443${NC}"
 echo -e "  ${YB}- HTTP  : 80, 8080, 8880, 2052, 2082, 2086, 2095${NC}"
-echo -e "  ${YB}- Haproxy Loadbalancer  : 443, 80   ${NC}"
 echo -e "${BB}————————————————————————————————————————————————————————${NC}"
 echo ""
 rm -f xray
