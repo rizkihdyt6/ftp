@@ -14,7 +14,7 @@ wget -q -O user-vmess "${REPO}vmess/user-vmess.sh"
 sleep 0.5
 echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Menu Bot Notif${NC}"
 wget -q -O add-bot-notif "${REPO}bot-notif/add-bot-notif.sh"
-wget -q -O del-bot-notif "${REPO}bot-notif/del-bot-notif.sh
+wget -q -O del-bot-notif "${REPO}bot-notif/del-bot-notif.sh"
 sleep 0.5
 sleep 2
 chmod +x add-vmess
