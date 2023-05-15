@@ -89,15 +89,7 @@ systemctl restart nginx
 clear
 touch /usr/local/etc/xray/domain
 echo -e "${YB}Input Domain${NC} "
-echo " "
-read -rp "Input domain kamu : " -e dns
-if [ -z $dns ]; then
-echo -e "Nothing input for domain!"
-else
-echo "$dns" > /usr/local/etc/xray/domain
-echo "DNS=$dns" > /var/lib/dnsvps.conf
-fi
-clear
+echo -e ""
 echo -e "${red}    ♦️${NC} ${green} CUSTOM SETUP DOMAIN VPS     ${NC}"
     echo -e "${red}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
     echo "1. Use Domain From Script / Gunakan Domain Dari Script"
