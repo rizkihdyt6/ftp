@@ -131,159 +131,17 @@ iptables-save > /etc/iptables.up.rules
 iptables-restore -t < /etc/iptables.up.rules
 netfilter-persistent save
 netfilter-persistent reload
-cd /usr/bin
 echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Main Menu${NC}"
-wget -q -O menu "${REPO}menu/menu.sh"
-wget -q -O vmess "${REPO}menu/vmess.sh"
-wget -q -O vless "${REPO}menu/vless.sh"
-wget -q -O trojan "${REPO}menu/trojan.sh"
-wget -q -O shadowsocks "${REPO}menu/shadowsocks.sh"
-wget -q -O shadowsocks2022 "${REPO}menu/shadowsocks2022.sh"
-wget -q -O socks "${REPO}menu/socks.sh"
-wget -q -O allxray "${REPO}menu/allxray.sh"
-wget -q -O bot "${REPO}menu/bot.sh"
-sleep 0.5
-echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Menu Vmess${NC}"
-wget -q -O add-vmess "${REPO}vmess/add-vmess.sh"
-wget -q -O del-vmess "${REPO}vmess/del-vmess.sh"
-wget -q -O extend-vmess "${REPO}vmess/extend-vmess.sh"
-wget -q -O trialvmess "${REPO}vmess/trialvmess.sh"
-wget -q -O cek-vmess "${REPO}vmess/cek-vmess.sh"
-wget -q -O user-vmess "${REPO}vmess/user-vmess.sh"
-
-sleep 0.5
-echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Menu Vless${NC}"
-wget -q -O add-vless "${REPO}vless/add-vless.sh"
-wget -q -O del-vless "${REPO}vless/del-vless.sh"
-wget -q -O extend-vless "${REPO}vless/extend-vless.sh"
-wget -q -O trialvless "${REPO}vless/trialvless.sh"
-wget -q -O cek-vless "${REPO}vless/cek-vless.sh"
-sleep 0.5
-echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Menu Trojan${NC}"
-wget -q -O add-trojan "${REPO}trojan/add-trojan.sh"
-wget -q -O del-trojan "${REPO}trojan/del-trojan.sh"
-wget -q -O extend-trojan "${REPO}trojan/extend-trojan.sh"
-wget -q -O trialtrojan "${REPO}trojan/trialtrojan.sh"
-wget -q -O cek-trojan "${REPO}trojan/cek-trojan.sh"
-sleep 0.5
-echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Menu Shadowsocks${NC}"
-wget -q -O add-ss "${REPO}shadowsocks/add-ss.sh"
-wget -q -O del-ss "${REPO}shadowsocks/add-del.sh"
-wget -q -O extend-ss "${REPO}shadowsocks/extend-ss.sh"
-wget -q -O trialss "${REPO}shadowsocks/trialss.sh"
-wget -q -O cek-ss "${REPO}shadowsocks/cek-ss.sh"
-sleep 0.5
-echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Menu Shadowsocks 2022${NC}"
-wget -q -O add-ss2022 "${REPO}shadowsocks2022/add-ss2022.sh"
-wget -q -O del-ss2022 "${REPO}shadowsocks2022/del-ss2022.sh"
-wget -q -O extend-ss2022 "${REPO}shadowsocks2022/extend-ss2022.sh"
-wget -q -O trialss2022 "${REPO}shadowsocks2022/trialss2022.sh"
-wget -q -O cek-ss2022 "${REPO}shadowsocks2022/cek-ss2022.sh"
-sleep 0.5
-echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Menu Socks5${NC}"
-wget -q -O add-socks "${REPO}socks/add-socks.sh"
-wget -q -O del-socks "${REPO}socks/del-socks.sh"
-wget -q -O extend-socks "${REPO}socks/extend-socks.sh"
-wget -q -O trialsocks "${REPO}socks/trialsocks.sh"
-wget -q -O cek-socks "${REPO}socks/cek-socks.sh"
-sleep 0.5
-echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Menu All Xray${NC}"
-wget -q -O add-xray "${REPO}allxray/add-xray.sh"
-wget -q -O del-xray "${REPO}allxray/del-xray.sh"
-wget -q -O extend-xray "${REPO}allxray/extend-xray.sh"
-wget -q -O trialxray "${REPO}allxray/trialxray.sh"
-wget -q -O cek-xray "${REPO}allxray/cek-xray.sh"
-sleep 0.5
-echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Menu Log${NC}"
-wget -q -O log-create "${REPO}log/log-create.sh"
-wget -q -O log-vmess "${REPO}log/log-vmess.sh"
-wget -q -O log-vless "${REPO}log/log-vless.sh"
-wget -q -O log-trojan "${REPO}log/log-trojan.sh"
-wget -q -O log-ss "${REPO}log/log-ss.sh"
-wget -q -O log-ss2022 "${REPO}log/log-ss2022.sh"
-wget -q -O log-socks "${REPO}log/loh-socks.sh"
-wget -q -O log-allxray "${REPO}log/log-allxray.sh"
-sleep 0.5
-echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Other Menu${NC}"
-wget -q -O xp "${REPO}other/xp.sh"
-wget -q -O dns "${REPO}other/dns.sh"
-wget -q -O certxray "${REPO}other/certxray.sh"
-wget -q -O xraymod "${REPO}other/xraymod.sh"
-wget -q -O xrayofficial "${REPO}other/xrayofficial.sh"
-wget -q -O about "${REPO}other/about.sh"
-wget -q -O clear-log "${REPO}other/clear-log.sh"
-wget -q -O changer "${REPO}other/changer.sh"
-sleep 0.5
-echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Menu Bot Notif${NC}"
-wget -q -O add-bot-notif "${REPO}bot-notif/add-bot-notif.sh"
-wget -q -O del-bot-notif "${REPO}bot-notif/del-bot-notif.sh"
-sleep 0.5
+    # > Add menu, thanks to RizkiHdyt <3
+    wget -O /tmp/menu-master.zip "${REPO}config/menu.zip" >/dev/null 2>&1
+    mkdir /tmp/menu
+    7z e  /tmp/menu-master.zip -o/tmp/menu/ >/dev/null 2>&1
+    chmod +x /tmp/menu/*
+    mv /tmp/menu/* /usr/sbin/
+echo -e "${GB}[ INFO ]${NC} ${YB}Processing Download Menu File${NC}
+sleep 1"
 echo -e "${GB}[ INFO ]${NC} ${YB}Download All Menu Done${NC}"
 sleep 2
-chmod +x add-vmess
-chmod +x del-vmess
-chmod +x extend-vmess
-chmod +x trialvmess
-chmod +x cek-vmess
-chmod +x user-vmess
-chmod +x add-vless
-chmod +x del-vless
-chmod +x extend-vless
-chmod +x trialvless
-chmod +x cek-vless
-chmod +x add-trojan
-chmod +x del-trojan
-chmod +x extend-trojan
-chmod +x trialtrojan
-chmod +x cek-trojan
-chmod +x add-ss
-chmod +x del-ss
-chmod +x extend-ss
-chmod +x trialss
-chmod +x cek-ss
-chmod +x add-ss2022
-chmod +x del-ss2022
-chmod +x extend-ss2022
-chmod +x trialss2022
-chmod +x cek-ss2022
-chmod +x add-socks
-chmod +x del-socks
-chmod +x extend-socks
-chmod +x trialsocks
-chmod +x cek-socks
-chmod +x add-xray
-chmod +x del-xray
-chmod +x extend-xray
-chmod +x trialxray
-chmod +x cek-xray
-chmod +x log-create
-chmod +x log-vmess
-chmod +x log-vless
-chmod +x log-trojan
-chmod +x log-ss
-chmod +x log-ss2022
-chmod +x log-socks
-chmod +x log-allxray
-chmod +x menu
-chmod +x vmess
-chmod +x vless
-chmod +x trojan
-chmod +x shadowsocks
-chmod +x shadowsocks2022
-chmod +x socks
-chmod +x allxray
-chmod +x xp
-chmod +x dns
-chmod +x certxray
-chmod +x xraymod
-chmod +x xrayofficial
-chmod +x about
-chmod +x clear-log
-chmod +x changer
-chmod +x del-bot-notif
-chmod +x add-bot-notif
-chmod +x bot
-cd
 echo "0 0 * * * root xp" >> /etc/crontab
 echo "*/3 * * * * root clear-log" >> /etc/crontab
 systemctl restart cron
