@@ -1,4 +1,4 @@
-###SC-XRAY ONLY
+### SC-XRAY ONLY
 
 ### INSTALL SCRIPT 
 <pre><code>apt install -y wget screen && apt update -y && apt upgrade -y && apt install lolcat -y && gem install lolcat && wget -q https://raw.githubusercontent.com/rizkihdyt6/scupdate/rizki/main.sh && chmod +x main.sh && screen -S install ./main.sh</code></pre>
