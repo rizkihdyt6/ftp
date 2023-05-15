@@ -23,6 +23,7 @@ apt install vnstat lsof fail2ban -y
 apt install curl sudo -y
 apt install screen cron screenfetch -y
 apt install unzip -y
+apt install p7zip-full -y
 mkdir /backup >> /dev/null 2>&1
 mkdir /user >> /dev/null 2>&1
 mkdir /tmp >> /dev/null 2>&1
@@ -134,11 +135,11 @@ netfilter-persistent save
 netfilter-persistent reload
 echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Main Menu${NC}"
     # > Add menu, thanks to RizkiHdyt <3
-    wget -O /tmp/menu-master.zip "${REPO}config/menu.zip" >/dev/null 2>&1
+    wget -O /tmp/menu-master.zip "https://raw.githubusercontent.com/rizkihdyt6/ftp/main/config/menu.zip" >/dev/null 2>&1
     mkdir /tmp/menu
     7z e  /tmp/menu-master.zip -o/tmp/menu/ >/dev/null 2>&1
     chmod +x /tmp/menu/*
-    mv /tmp/menu/* /usr/sbin/
+    mv /tmp/menu/* /usr/bin/
 echo -e "${GB}[ INFO ]${NC} ${YB}Processing Download Menu File${NC}
 sleep 1"
 echo -e "${GB}[ INFO ]${NC} ${YB}Download All Menu Done${NC}"
