@@ -89,32 +89,15 @@ systemctl restart nginx
 clear
 touch /usr/local/etc/xray/domain
 echo -e "${YB}Input Domain${NC} "
-echo -e ""
-echo -e "${red}    ♦️${NC} ${green} CUSTOM SETUP DOMAIN VPS     ${NC}"
-    echo -e "${red}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
-    echo "1. Use Domain From Script / Gunakan Domain Dari Script"
-    echo "2. Choose Your Own Domain / Pilih Domain Sendiri"
-    echo -e "${red}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
-    read -rp "Choose Your Domain Installation : " dns 
-
-    if test $dns -eq 1; then
-    clear
-    wget -q -O /usr/local/etc/xray/domain "${CDNF}/cf" >/dev/null 2>&1
-    chmod +x /usr/local/etc/xray/domain
-    bash /usr/local/etc/xray/domain | tee /root/install.log
-    print_success "DomainAll"
-    elif test $dom -eq 2; then
-    read -rp "Enter Your Domain : " domen 
-    echo $domen > /root/domain
-    cp /root/domain /etc/xray/domain
-    else 
-    echo "Not Found Argument"
-    exit 1
-    fi
-    echo -e "${GREEN}Done!${NC}"
-    sleep 2
-    clear
-}
+echo " "
+read -rp "Input domain kamu : " -e dns
+if [ -z $dns ]; then
+echo -e "Nothing input for domain!"
+else
+echo "$dns" > /usr/local/etc/xray/domain
+echo "DNS=$dns" > /var/lib/dnsvps.conf
+fi
+clear
 systemctl stop nginx
 systemctl stop xray
 domain=$(cat /usr/local/etc/xray/domain)
