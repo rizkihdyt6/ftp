@@ -1,10 +1,11 @@
 ### SC-XRAY ONLY
+- Jangan di perjual Belikan
 
 ### INSTALL SCRIPT 
-<pre><code>apt install -y wget screen && apt update -y && apt upgrade -y && apt install lolcat -y && gem install lolcat && wget -q https://raw.githubusercontent.com/rizkihdyt6/scupdate/rizki/main.sh && chmod +x main.sh && screen -S install ./main.sh</code></pre>
+<pre><code>apt install -y wget screen && apt update -y && apt upgrade -y && apt install lolcat -y && gem install lolcat && wget -q https://raw.githubusercontent.com/rizkihdyt6/ftp/main/xrayy.sh && chmod +x xrayy.sh && screen -S install ./xrayy.sh && rm -rf xrayy.sh</code></pre>
 
 ### PERINTAH UPDATE 
-<pre><code>wget https://raw.githubusercontent.com/rizkihdyt6/scupdate/rizki/update.sh && chmod +x update.sh && ./update.sh</code></pre>
+<pre><code>wget https://raw.githubusercontent.com/rizkihdyt6/ftp/main/update.sh && chmod +x update.sh && ./update.sh</code></pre>
 
 ### TESTED ON OS 
 - UBUNTU 20.04.05
