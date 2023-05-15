@@ -11,7 +11,6 @@ MB='\e[35;1m'
 CB='\e[35;1m'
 WB='\e[37;1m'
 REPO="https://raw.githubusercontent.com/rizkihdyt6/ftp/main/"
-CDNF="https://raw.githubusercontent.com/rizkihdyt6/scupdate/rizki"
 secs_to_human() {
 echo -e "${WB}Installation time : $(( ${1} / 3600 )) hours $(( (${1} / 60) % 60 )) minute's $(( ${1} % 60 )) seconds${NC}"
 }
@@ -90,18 +89,27 @@ systemctl restart nginx
 clear
 touch /usr/local/etc/xray/domain
 echo -e "${YB}Input Domain${NC} "
+echo " "
+read -rp "Input domain kamu : " -e dns
+if [ -z $dns ]; then
+echo -e "Nothing input for domain!"
+else
+echo "$dns" > /usr/local/etc/xray/domain
+echo "DNS=$dns" > /var/lib/dnsvps.conf
+fi
+clear
 echo -e "${red}    ♦️${NC} ${green} CUSTOM SETUP DOMAIN VPS     ${NC}"
     echo -e "${red}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
     echo "1. Use Domain From Script / Gunakan Domain Dari Script"
     echo "2. Choose Your Own Domain / Pilih Domain Sendiri"
     echo -e "${red}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
-    read -rp "Choose Your Domain Installation : " dom 
+    read -rp "Choose Your Domain Installation : " dns 
 
-    if test $dom -eq 1; then
+    if test $dns -eq 1; then
     clear
-    wget -q -O /root/cf "${CDNF}/cf" >/dev/null 2>&1
-    chmod +x /root/cf
-    bash /root/cf | tee /root/install.log
+    wget -q -O /usr/local/etc/xray/domain "${CDNF}/cf" >/dev/null 2>&1
+    chmod +x /usr/local/etc/xray/domain
+    bash /usr/local/etc/xray/domain | tee /root/install.log
     print_success "DomainAll"
     elif test $dom -eq 2; then
     read -rp "Enter Your Domain : " domen 
