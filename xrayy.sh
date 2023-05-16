@@ -18,10 +18,7 @@ start=$(date +%s)
 apt update -y
 apt upgrade -y
 apt dist-upgrade -y
-sudo apt autoremove git man-db apache2 ufw exim4 firewalld snapd* -y;
-    clear
-    print_install "Memasang paket yang dibutuhkan"
-    sysctl -w net.ipv6.conf.all.disable_ipv6=1 >/dev/null 2>&1
+sysctl -w net.ipv6.conf.all.disable_ipv6=1 >/dev/null 2>&1
     sysctl -w net.ipv6.conf.default.disable_ipv6=1  >/dev/null 2>&1
     sudo apt install software-properties-common -y
     sudo add-apt-repository ppa:vbernat/haproxy-2.7 -y
@@ -35,8 +32,6 @@ sudo apt autoremove git man-db apache2 ufw exim4 firewalld snapd* -y;
     apt-get clean all; sudo apt-get autoremove -y
     apt-get install lolcat -y
     apt-get install vnstat -y
-    apt-get install cron -y
-    apt-get instal lsof -y
     apt-get install curl -y
     gem install lolcat
 apt install socat netfilter-persistent -y
