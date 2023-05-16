@@ -18,22 +18,6 @@ start=$(date +%s)
 apt update -y
 apt upgrade -y
 apt dist-upgrade -y
-sysctl -w net.ipv6.conf.all.disable_ipv6=1 >/dev/null 2>&1
-    sysctl -w net.ipv6.conf.default.disable_ipv6=1  >/dev/null 2>&1
-    sudo apt install software-properties-common -y
-    sudo add-apt-repository ppa:vbernat/haproxy-2.7 -y
-    sudo apt update && apt upgrade -y
-    # linux-tools-common util-linux  \
-    sudo apt install squid nginx zip pwgen openssl netcat bash-completion  \
-    curl socat xz-utils wget apt-transport-https dnsutils socat chrony \
-    tar wget curl ruby zip unzip p7zip-full python3-pip haproxy libc6  gnupg gnupg2 gnupg1 \
-    msmtp-mta ca-certificates bsd-mailx iptables iptables-persistent netfilter-persistent \
-    net-tools  jq openvpn easy-rsa python3-certbot-nginx p7zip-full tuned fail2ban -y
-    apt-get clean all; sudo apt-get autoremove -y
-    apt-get install lolcat -y
-    apt-get install vnstat -y
-    apt-get install curl -y
-    gem install lolcat
 apt install socat netfilter-persistent -y
 apt install vnstat lsof fail2ban -y
 apt install curl sudo -y
