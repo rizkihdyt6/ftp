@@ -134,13 +134,16 @@ iptables-restore -t < /etc/iptables.up.rules
 netfilter-persistent save
 netfilter-persistent reload
 echo -e "${GB}[ INFO ]${NC} ${YB}Downloading Main Menu${NC}"
-wget ${REPO}config/menu.zip >/dev/null 2>&1
-7z e menu.zip
-rm -f menu.zip
-chmod +x *
-mv * /usr/sbin/
-echo -e "${GB}[ INFO ]${NC} ${YB}Processing Download Menu File${NC}
-sleep 1"
+sleep 1
+echo -e "${GB}[ INFO ]${NC} ${YB}Processing Download Menu File${NC}"
+sleep 1
+wget -O /tmp/menu-master.zip "${REPO}config/menu.zip" >/dev/null 2>&1
+mkdir /tmp/menu
+7z e /tmp/menu-master.zip -o/tmp/menu/ >/dev/null 2>&1
+chmod +x /tmp/menu/*
+mv /tmp/menu* /usr/sbin/
+sleep 3
+sleep 1
 echo -e "${GB}[ INFO ]${NC} ${YB}Download All Menu Done${NC}"
 sleep 2
 echo "0 0 * * * root xp" >> /etc/crontab
