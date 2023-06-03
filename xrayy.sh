@@ -11,6 +11,15 @@ MB='\e[35;1m'
 CB='\e[35;1m'
 WB='\e[37;1m'
 REPO="https://raw.githubusercontent.com/rizkihdyt6/ftp/main/"
+CDNF="https://raw.githubusercontent.com/rizkihdyt6/ftp/main/"
+TIME=$(date +'%Y-%m-%d %H:%M:%S')
+MYIP=$(wget -qO- ipinfo.io/ip)
+ISP=$(wget -qO- ipinfo.io/org)
+CITY=$(curl -s ipinfo.io/city)
+NAMES=$(whoami)
+RAMMS=$(free -m | awk 'NR==2 {print $2}')
+MODEL=$(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g')
+domain=$(/usr/local/etc/xray/domain)
 TIMES="10"
 CHATID="1316596937"
 KEY="6003347945:AAHv1Ti4HQliYwpYm8sbKrriDkSMqqJLUqE"
@@ -92,15 +101,41 @@ touch /etc/bot/.bot.db
 systemctl restart nginx
 clear
 touch /usr/local/etc/xray/domain
-echo -e "${YB}Input Domain${NC} "
-echo " "
-read -rp "Input domain kamu : " -e dns
-if [ -z $dns ]; then
-echo -e "Nothing input for domain!"
-else
-echo "$dns" > /usr/local/etc/xray/domain
-echo "DNS=$dns" > /var/lib/dnsvps.conf
-fi
+    echo -e "${red}    ♦️${NC} ${green} CUSTOM SETUP DOMAIN VPS     ${NC}"
+    echo -e "${red}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
+    echo "1. Use Domain From Script / Gunakan Domain Dari Script"
+    echo "2. Choose Your Own Domain / Pilih Domain Sendiri"
+    echo -e "${red}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\033[0m${NC}"
+    read -rp "Choose Your Domain Installation : " dom 
+
+    if test $dom -eq 1; then
+    clear
+    wget -q -O /root/cf "${CDNF}cf" >/dev/null 2>&1
+    chmod +x /root/cf
+    bash /root/cf | tee /root/install.log
+    print_success "DomainAll"
+    elif test $dom -eq 2; then
+    read -rp "Input domain kamu : " -e dns
+    echo "$dns" > /usr/local/etc/xray/domain
+    echo "DNS=$dns" > /var/lib/dnsvps.conf
+    else 
+    echo "Not Found Argument"
+    exit 1
+    fi
+    echo -e "${GREEN}Done!${NC}"
+    sleep 2
+    clear
+
+
+#echo -e "${YB}Input Domain${NC} "
+#echo " "
+#read -rp "Input domain kamu : " -e dns
+i#f [ -z $dns ]; then
+#echo -e "Nothing input for domain!"
+#else
+#echo "$dns" > /usr/local/etc/xray/domain
+#echo "DNS=$dns" > /var/lib/dnsvps.conf
+#fi
 clear
 systemctl stop nginx
 systemctl stop xray
@@ -117,6 +152,21 @@ wget -q -O /etc/nginx/nginx.conf ${REPO}xray/nginx.conf
 wget -q -O /etc/nginx/conf.d/xray.conf ${REPO}xray/xray.conf
 systemctl restart nginx
 systemctl restart xray
+
+# > pasang gotop
+    gotop_latest="$(curl -s https://api.github.com/repos/xxxserxxx/gotop/releases | grep tag_name | sed -E 's/.*"v(.*)".*/\1/' | head -n 1)"
+    gotop_link="https://github.com/xxxserxxx/gotop/releases/download/v$gotop_latest/gotop_v"$gotop_latest"_linux_amd64.deb"
+    curl -sL "$gotop_link" -o /tmp/gotop.deb
+    dpkg -i /tmp/gotop.deb >/dev/null 2>&1
+    
+        # > Buat swap sebesar 1G
+    dd if=/dev/zero of=/swapfile bs=1024 count=1048576
+    mkswap /swapfile
+    chown root:root /swapfile
+    chmod 0600 /swapfile >/dev/null 2>&1
+    swapon /swapfile >/dev/null 2>&1
+    sed -i '$ i\/swapfile      swap swap   defaults    0 0' /etc/fstab
+    
 echo -e "${GB}[ INFO ]${NC} ${YB}Setup Done${NC}"
 sleep 2
 clear
@@ -170,14 +220,14 @@ TEXT="
 <code>LOKASI    : </code><code>${CITY}</code>
 <code>USER      : </code><code>${NAMES}</code>
 <code>RAM       : </code><code>${RAMMS}MB</code>
-<code>LINUX     : </code><code>${OS}</code>
+<code>LINUX     : </code><code>${MODEL}</code>
 "
     curl -s --max-time $TIMES -d "chat_id=$CHATID&disable_web_page_preview=1&text=$TEXT&parse_mode=html" $URL >/dev/null
 clear
 echo ""
 echo ""
 echo -e "${BB}—————————————————————————————————————————————————————————${NC}"
-echo -e "                  ${WB}MINI SCRIPT BY DUGONG${NC}"
+echo -e "                  ${WB}MINI SCRIPT BY NEWBIETUNNEL${NC}"
 echo -e "${BB}—————————————————————————————————————————————————————————${NC}"
 echo -e "  ${WB}»»» Protocol Service «««  |  »»» Network Protocol «««${NC}  "
 echo -e "${BB}—————————————————————————————————————————————————————————${NC}"
