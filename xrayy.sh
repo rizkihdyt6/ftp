@@ -129,13 +129,12 @@ touch /usr/local/etc/xray/domain
 #echo -e "${YB}Input Domain${NC} "
 #echo " "
 #read -rp "Input domain kamu : " -e dns
-i#f [ -z $dns ]; then
+#f [ -z $dns ]; then
 #echo -e "Nothing input for domain!"
 #else
 #echo "$dns" > /usr/local/etc/xray/domain
 #echo "DNS=$dns" > /var/lib/dnsvps.conf
 #fi
-clear
 systemctl stop nginx
 systemctl stop xray
 domain=$(cat /usr/local/etc/xray/domain)
