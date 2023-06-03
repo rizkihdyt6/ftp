@@ -113,7 +113,6 @@ touch /usr/local/etc/xray/domain
     wget -q -O /root/cf "${CDNF}cf" >/dev/null 2>&1
     chmod +x /root/cf
     bash /root/cf | tee /root/install.log
-    print_success "DomainAll"
     elif test $dom -eq 2; then
     read -rp "Input domain kamu : " -e dns
     echo "$dns" > /usr/local/etc/xray/domain
