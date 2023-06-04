@@ -6,9 +6,11 @@ REPO="https://raw.githubusercontent.com/rizkihdyt6/ftp/main/"
 echo -e " [INFO] Downloading Update File"
 sleep 2
 rm -rf /tmp/menu
-wget -O /tmp/menu-master.zip "${REPO}menu/menu.zip" >/dev/null 2>&1
+wget "${REPO}menu/menu.zip" >/dev/null 2>&1
+    rm -rf /tmp/menu
     mkdir /tmp/menu
-    7z e  /tmp/menu-master.zip -o/tmp/menu/ >/dev/null 2>&1
+    unzip menu.zip -d /tmp/menu/ >/dev/null 2>&1
+    rm -rf menu.zip
     chmod +x /tmp/menu/*
     mv /tmp/menu/* /usr/sbin/
 
